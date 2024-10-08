@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite de Aniversário</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="template-aniversario.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            font-family: "Montserrat", sans-serif;
+            font-weight: 500;
+            color: rgb(120, 102, 0);
+        }
+        
+        .header{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            padding-top: 40px;
+        }
+        
+        span{
+            max-width: 65%;
+            text-align: center;
+        }
+        
+        .name{
+            font-size: 45px;
+            font-weight: 600;
+            color: rgb(171, 145, 0);
+            font-family: "Sevillana", cursive;
+            text-align: center;
+        }
+        
+        .desc{
+            font-size: 20px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            border-radius: 10px;
+            overflow: hidden;
+            background-image: url('{{imagem_base64}}');
+            min-height: 700px;
+            background-size: 93%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+        }
+        
+        .footer a {
+            color: #d45a84;
+            text-decoration: none;
+        }
+        
+        hr{
+            height: 1px;
+            background: rgb(105, 90, 0);
+            width: 40%;
+        }
+        
+        .date{
+            font-size: 24px;
+            font-weight: 600;
+            font-family: "Playfair Display", serif;
+        }
+        
+        .location{
+            width: 100%;
+            display: flex;
+            padding-left: 125px;
+            margin-top: 60px;
+        }
+        
+        .location-info{
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        
+        .location-info span{
+            text-align: start;
+            margin-bottom: 3px;
+        }
+        
+        .cardapio{
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            font-size: 14px;
+            margin-top: 30px;
+        }
+        
+        .food{
+            margin-top: 8px;
+            padding-right: 45px;
+        }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&family=Sevillana&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playwrite+CU:wght@100..400&family=Sevillana&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <span class="name">{{nome_evento}}</span>
+        </div>
+        <hr>
+        <span class="desc">Contamos com você para celebrar meu aniversário!</span>
+
+        <span class="date" style="margin-top: 25px">30/09/2025</span>
+        <span class="date" style="font-weight: 500">18h</span>
+
+        <div class="location">
+            <div class="location-info">
+                <span style="font-size: 16px; font-weight: 600">Local</span>
+                <span style="font-size: 14px">Casa das Pedras</span>
+            </div>
+            <div class="location-info">
+                <span style="font-size: 17px; font-weight: 600">Endereço</span>
+                <span style="font-size: 14px; width: 50%;">Rua doutor júlio rosa cruz, 890</span>
+            </div>
+        </div>
+
+        <div class="cardapio">
+            <h2 style="font-size: 17px; font-weight: 600; margin: 0">Cardápio</h2>
+            <div class="food">
+                <strong>Comidas: </strong><span>De comida teremos Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias accusamus laudantium possimus veniam deserunt architecto libero ipsum pariatur inventore voluptates, nam neque praesentium numquam.</span>
+            </div>
+            <div class="food">
+                <strong>Bebidas: </strong><span>De bebidas teremos Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias accusamus laudantium possimus veniam deserunt architecto libero ipsum pariatur inventore voluptates, nam neque praesentium numquam.</span>
+            </div>
+        </div>
+
+        <!-- <div class="footer">
+            <p>Esperamos por você! Confirme sua presença até <strong>20 de Setembro</strong>.</p>
+            <p><a href="https://maps.google.com">Ver Localização no Google Maps</a></p>
+        </div> -->
+    </div>
+
+</body>
+
+</html>

@@ -6,7 +6,7 @@ from PIL import Image, ImageTk  # Necessário para exibir as imagens
 class FormularioEvento:
     def __init__(self, root):
         self.root = root
-        self.root.title("Formulário de Evento")
+        self.root.title("Cadastro de Evento")
         self.root.geometry("1200x700")  # Aumentar o tamanho da janela
         self.root.configure(bg="#1a70bb")  # Fundo azul da janela
 
@@ -133,9 +133,9 @@ class FormularioEvento:
             return ImageTk.PhotoImage(img)
 
         # Caminhos das imagens (substitua pelos caminhos corretos das suas imagens)
-        caminho_imagem1 = "./templates/templates-backgrounds/background-1.jpg"
-        caminho_imagem2 = "./templates/templates-backgrounds/background-1.jpg"
-        caminho_imagem3 = "./templates/templates-backgrounds/background-1.jpg"
+        caminho_imagem1 = "tematico-2/templates/templates-backgrounds/background-1.jpg"
+        caminho_imagem2 = "tematico-2/templates/templates-backgrounds/background-1.jpg"
+        caminho_imagem3 = "tematico-2/templates/templates-backgrounds/background-1.jpg"
 
         # Carregar as imagens e armazená-las na lista self.imagens
         self.imagens.append(carregar_imagem(caminho_imagem1))

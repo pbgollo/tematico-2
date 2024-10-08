@@ -43,7 +43,7 @@ async def gerar_imagem_do_html(arquivo_html, output_image_path, variaveis, camin
 
 def enviar_email_com_imagem(destinatario, assunto, caminho_imagem):
     remetente_email = 'lucas.bessegato96@gmail.com'  # Seu e-mail do Gmail
-    senha_app = 'ynbdobezqxzbokkm'  # Cole aqui a senha de app gerada no Gmail
+    senha_app = 'amqrpiedcfsqoif'  # Cole aqui a senha de app gerada no Gmail
 
     # Criar o objeto do e-mail
     msg = MIMEMultipart()
@@ -72,7 +72,7 @@ def enviar_email_com_imagem(destinatario, assunto, caminho_imagem):
 variaveis = {
     'titulo': 'Convite de Aniversário',
     'mensagem': 'Você está convidado para o aniversário de Cristina!',
-    'nome_aniversariante': 'Besse besse eee'
+    'nome_aniversariante': 'Besse besse aea'
 }
 
 # Caminho da imagem local que será convertida para Base64
@@ -81,7 +81,7 @@ caminho_imagem_local = 'background-1.jpg'
 # Gerar a imagem do HTML usando Pyppeteer
 arquivo_html = 'template-aniversario.html'
 imagem_output = 'convite_aniversario.png'
-asyncio.get_event_loop().run_until_complete(gerar_imagem_do_html(arquivo_html, imagem_output, variaveis, caminho_imagem_local))
+asyncio.run(gerar_imagem_do_html(arquivo_html, imagem_output, variaveis, caminho_imagem_local))
 
 # Enviar o e-mail com a imagem como anexo
 enviar_email_com_imagem('lucas.bessegato98@gmail.com', 'Seu Convite de Aniversário', imagem_output)
