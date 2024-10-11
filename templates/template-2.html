@@ -23,13 +23,14 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-end;
             padding: 15px;
             padding-top: 40px;
+            padding-right: 100px;
         }
         
         span{
-            max-width: 65%;
+            max-width: 50%;
             text-align: center;
         }
         
@@ -43,18 +44,18 @@
         
         .desc{
             font-size: 20px;
+            margin-top: 20px;
             text-align: center;
-            margin-top: 30px;
         }
         
         .container {
-            max-width: 680px;
+            max-width: 690px;
             margin: 0 auto;
             border-radius: 10px;
             overflow: hidden;
-            background-image: url('{{imagem_base64}}');
-            min-height: 700px;
-            background-size: 93%;
+            background-image: url('./templates-backgrounds/background-2.jpg');
+            height: 400px;
+            background-size: 100%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
@@ -88,14 +89,15 @@
         .location{
             width: 100%;
             display: flex;
-            padding-left: 125px;
-            margin-top: 60px;
+            flex-direction: column;
+            padding-left: 80px;
         }
         
         .location-info{
             display: flex;
             flex-direction: column;
             flex: 1;
+            margin-top: 10px;
         }
         
         .location-info span{
@@ -127,13 +129,11 @@
 
     <div class="container">
         <div class="header">
-            <span style="font-size: 24px; margin-bottom: 13px;">Aniversário</span>
-            <span class="name">{{nome_aniversariante}}</span>
+            <span class="name">{{nome_evento}}</span>
         </div>
-        <hr>
-        <span class="desc">Contamos com você para celebrar meu aniversário!</span>
+        <span class="desc">{{mensagem}}</span>
 
-        <span class="date" style="margin-top: 25px">30/09/2025</span>
+        <span class="date" style="margin-top: 10px">30/09/2025</span>
         <span class="date" style="font-weight: 500">18h</span>
 
         <div class="location">
@@ -144,16 +144,6 @@
             <div class="location-info">
                 <span style="font-size: 17px; font-weight: 600">Endereço</span>
                 <span style="font-size: 14px; width: 50%;">Rua doutor júlio rosa cruz, 890</span>
-            </div>
-        </div>
-
-        <div class="cardapio">
-            <h2 style="font-size: 17px; font-weight: 600; margin: 0">Cardápio</h2>
-            <div class="food">
-                <strong>Comidas: </strong><span>De comida teremos Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias accusamus laudantium possimus veniam deserunt architecto libero ipsum pariatur inventore voluptates, nam neque praesentium numquam.</span>
-            </div>
-            <div class="food">
-                <strong>Bebidas: </strong><span>De bebidas teremos Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias accusamus laudantium possimus veniam deserunt architecto libero ipsum pariatur inventore voluptates, nam neque praesentium numquam.</span>
             </div>
         </div>
 
