@@ -3,7 +3,7 @@ from tkinter import ttk, messagebox
 from tkcalendar import DateEntry
 from PIL import Image, ImageTk  # Necessário para exibir as imagens
 
-class FormularioEvento:
+class FormEventoView:
     def __init__(self, root):
         self.root = root
         self.root.title("Formulário de Evento")
@@ -172,5 +172,5 @@ class FormularioEvento:
 # Executar o programa
 if __name__ == "__main__":
     root = tk.Tk()
-    app = FormularioEvento(root)
+    app = FormEventoView(root)
     root.mainloop()

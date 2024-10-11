@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
-from db import Base
+from database.db import Base
 
 class TemplateConvite(Base):
     __tablename__ = 'template_convite'

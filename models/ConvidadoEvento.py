@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from db import Base
+from database.db import Base
 
 class ConvidadoEvento(Base):
     __tablename__ = 'convidado_evento'
