@@ -7,7 +7,6 @@ class Convidado(Base):
     id = Column(Integer, primary_key=True)
     nome = Column(String(255))
     email = Column(String(255))
-    telefone = Column(String(255))
     
     id_convite = Column(Integer, ForeignKey('convite.id'), unique=True)
     convite = relationship("Convite", back_populates="convidado")    

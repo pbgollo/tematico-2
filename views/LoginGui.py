@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import messagebox
 from utils.PersonalizarWidgets import PersonalizarWidgets
 from utils.CentralizarJanela import CentralizarJanela
+from database.db import SessionLocal  
+from controllers.UsuarioController import UsuarioController  
 
 class LoginView:
     def __init__(self, root):
@@ -9,6 +11,10 @@ class LoginView:
         self.root.title("Login de Usuário")
         self.root.resizable(False, False)
         self.root.configure(bg="#1a70bb")
+
+        self.session = SessionLocal()
+
+        self.usuario_controller = UsuarioController(self.session)
 
         largura = 400
         altura = 330
@@ -46,12 +52,12 @@ class LoginView:
 
         # Label "Não tem uma conta?"
         self.label_nao_tem_conta = tk.Label(root, text="Não tem uma conta?")
-        self.label_nao_tem_conta.place(x=70, y=264)
+        self.label_nao_tem_conta.place(x=75, y=264)
         self.personalizar.configurar_small_label(self.label_nao_tem_conta, fg="white", bg="#1a70bb")
 
         # Botão "Cadastre-se"
         self.btn_cadastrar = tk.Button(root, text="Cadastre-se", command=self.abrir_cadastro_view)
-        self.btn_cadastrar.place(x=227, y=260)
+        self.btn_cadastrar.place(x=230, y=260)
         self.personalizar.configurar_button_azul(self.btn_cadastrar)
 
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
@@ -59,7 +65,13 @@ class LoginView:
     def login_usuario(self):
         email = self.entry_email.get()
         senha = self.entry_senha.get()
-        messagebox.showinfo("Login", f"E-mail: {email}\nTentativa de login!")
+
+        autenticado = self.usuario_controller.autenticar_usuario(email, senha)
+
+        if autenticado:
+            messagebox.showinfo("Login", "Login realizado com sucesso!")
+        else:
+            messagebox.showerror("Login", "Usuário ou senha incorretos!")
 
     def abrir_cadastro_view(self):
         self.root.withdraw()
@@ -68,4 +80,5 @@ class LoginView:
         CadastroView(cadastro_root)
 
     def on_close(self):
+        self.session.close()
         self.root.destroy()

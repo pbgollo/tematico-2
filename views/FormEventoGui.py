@@ -133,9 +133,9 @@ class FormEventoView:
             return ImageTk.PhotoImage(img)
 
         # Caminhos das imagens (substitua pelos caminhos corretos das suas imagens)
-        caminho_imagem1 = "tematico-2/templates/templates-backgrounds/background-1.jpg"
-        caminho_imagem2 = "tematico-2/templates/templates-backgrounds/background-1.jpg"
-        caminho_imagem3 = "tematico-2/templates/templates-backgrounds/background-1.jpg"
+        caminho_imagem1 = "templates/templates-backgrounds/background-1.jpg"
+        caminho_imagem2 = "templates/templates-backgrounds/background-1.jpg"
+        caminho_imagem3 = "templates/templates-backgrounds/background-1.jpg"
 
         # Carregar as imagens e armazená-las na lista self.imagens
         self.imagens.append(carregar_imagem(caminho_imagem1))
