@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
-from utils.PersonalizarWidgets import PersonalizarWidgets
-from utils.CentralizarJanela import CentralizarJanela
+from helpers.PersonalizarWidgets import PersonalizarWidgets
+from helpers.CentralizarJanela import CentralizarJanela
 from controllers.ConvidadoController import ConvidadoController
 from database.db import SessionLocal
 
