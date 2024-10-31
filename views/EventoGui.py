@@ -10,7 +10,7 @@ class EventoView:
         self.root = root
         self.root.title("Cadastro de Evento")
         self.root.geometry("1200x700")
-        self.root.configure(bg="#1a70bb")
+        self.root.configure(bg="#78d2ff")
 
         largura = 1200
         altura = 700

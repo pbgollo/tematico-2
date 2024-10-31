@@ -10,7 +10,7 @@ class LoginView:
         self.root = root
         self.root.title("Login de Usuário")
         self.root.resizable(False, False)
-        self.root.configure(bg="#1a70bb")
+        self.root.configure(bg="#78d2ff")
 
         self.session = SessionLocal()
 
@@ -24,7 +24,7 @@ class LoginView:
 
         # Título
         self.label_login = tk.Label(root, text="Seja Bem-vindo!")
-        self.label_login.place(x=115, y=30)
+        self.label_login.place(x=105, y=30)
         self.personalizar.configurar_big_label(self.label_login)
 
         # Label e campo de e-mail
@@ -53,7 +53,7 @@ class LoginView:
         # Label "Não tem uma conta?"
         self.label_nao_tem_conta = tk.Label(root, text="Não tem uma conta?")
         self.label_nao_tem_conta.place(x=75, y=264)
-        self.personalizar.configurar_small_label(self.label_nao_tem_conta, fg="white", bg="#1a70bb")
+        self.personalizar.configurar_small_label(self.label_nao_tem_conta, fg="white", bg="#78d2ff")
 
         # Botão "Cadastre-se"
         self.btn_cadastrar = tk.Button(root, text="Cadastre-se", command=self.abrir_cadastro_view)

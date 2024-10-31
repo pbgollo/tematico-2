@@ -10,7 +10,7 @@ class CadastroView:
         self.root = root
         self.root.title("Cadastro de Usuário")
         self.root.resizable(False, False)
-        self.root.configure(bg="#1a70bb")
+        self.root.configure(bg="#78d2ff")
 
         self.session = SessionLocal()
         self.usuario_controller = UsuarioController(self.session)
@@ -23,7 +23,7 @@ class CadastroView:
 
         # Título
         self.label_cadastro = tk.Label(root, text="Vamos criar a sua conta!")
-        self.label_cadastro.place(x=75, y=30)
+        self.label_cadastro.place(x=55, y=30)
         self.personalizar.configurar_big_label(self.label_cadastro)
 
         # Label e campo de nome
@@ -61,7 +61,7 @@ class CadastroView:
         # Label "Já possui uma conta?"
         self.label_ja_conta = tk.Label(root, text="Já possui uma conta?")
         self.label_ja_conta.place(x=90, y=320)
-        self.personalizar.configurar_small_label(self.label_ja_conta, fg="white", bg="#1a70bb")
+        self.personalizar.configurar_small_label(self.label_ja_conta, fg="white", bg="#78d2ff")
 
         # Botão "Entre"
         self.btn_entrar = tk.Button(root, text="Entre", command=self.abrir_login_view)

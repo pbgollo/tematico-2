@@ -10,7 +10,7 @@ class ConvidadoView:
         self.root = root
         self.root.title("Cadastro de Convidado")
         self.root.resizable(False, False)
-        self.root.configure(bg="#1a70bb")
+        self.root.configure(bg="#78d2ff")
 
         self.session = SessionLocal()
         self.convidado_controller = ConvidadoController(self.session)
@@ -23,7 +23,7 @@ class ConvidadoView:
 
         # Título
         self.label_convidado = tk.Label(root, text="Cadastre um Convidado!")
-        self.label_convidado.place(x=75, y=30)
+        self.label_convidado.place(x=55, y=30)
         self.personalizar.configurar_big_label(self.label_convidado)
 
         # Label e campo de nome
