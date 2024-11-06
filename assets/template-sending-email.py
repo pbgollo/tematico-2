@@ -13,6 +13,9 @@ template_1_path = os.path.join(base_dir, 'templates', 'template-1.html')
 background_2_path = os.path.join(base_dir, 'templates-backgrounds', 'background-2.jpg')
 template_2_path = os.path.join(base_dir, 'templates', 'template-2.html')
 
+background_3_path = os.path.join(base_dir, 'templates-backgrounds', 'background-3.jpg')
+template_3_path = os.path.join(base_dir, 'templates', 'template-3.html')
+
 # Função para converter imagem para Base64
 def converter_imagem_para_base64(caminho_imagem):
     with open(caminho_imagem, "rb") as img_file:
@@ -97,7 +100,7 @@ variaveis = {
     'mensagem': 'Você está convidado para o aniversário de Cristina!',
     'nome_aniversariante': 'Besse besse aea'
 }
-arquivo_html = template_2_path
+arquivo_html = template_3_path
 imagem_output = 'convite_aniversario.png'
 destinatario = "lucas.bessegato98@gmail.com"
 assunto = "Convite de Aniversário"
@@ -106,7 +109,7 @@ mensagem_texto = "Você está convidado para a festa! Veja o convite em anexo."
 
 # Geração da imagem e envio do e-mail em sequência
 async def main():
-    await gerar_imagem_do_html(arquivo_html, imagem_output, variaveis, background_2_path)
+    await gerar_imagem_do_html(arquivo_html, imagem_output, variaveis, background_3_path)
     enviar_email_com_imagem(destinatario, assunto, mensagem_texto, imagem_output)
 
 # Executar as funções assíncronas e sincronas em sequência

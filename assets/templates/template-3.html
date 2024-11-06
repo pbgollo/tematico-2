@@ -16,46 +16,46 @@
             padding: 0;
             font-family: "Montserrat", sans-serif;
             font-weight: 500;
-            color: rgb(120, 102, 0);
+            color: rgb(255 239 147);
         }
         
         .header{
             width: 100%;
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
+            align-items: center;
             padding: 15px;
             padding-top: 40px;
-            padding-right: 100px;
         }
         
         span{
-            max-width: 50%;
+            max-width: 65%;
             text-align: center;
         }
         
         .name{
-            font-size: 45px;
+            font-size: 30px;
             font-weight: 600;
-            color: rgb(171, 145, 0);
+            color: rgb(255 241 167);
             font-family: "Sevillana", cursive;
             text-align: center;
+            margin-top: -10px;
         }
         
         .desc{
             font-size: 20px;
-            margin-top: 20px;
             text-align: center;
+            margin-top: 160px;
         }
         
         .container {
-            max-width: 690px;
+            max-width: 680px;
             margin: 0 auto;
             border-radius: 10px;
             overflow: hidden;
-            background-image: url('../templates-backgrounds/background-2.jpg');
-            height: 400px;
-            background-size: 100%;
+            background-image: url('{{imagem_base64}}');
+            min-height: 885px;
+            background-size: 99%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
@@ -76,7 +76,7 @@
         
         hr{
             height: 1px;
-            background: rgb(105, 90, 0);
+            background: rgb(200, 182, 76);
             width: 40%;
         }
         
@@ -87,17 +87,16 @@
         }
         
         .location{
-            width: 100%;
+            width: 90%;
             display: flex;
-            flex-direction: column;
-            padding-left: 80px;
+            padding-left: 125px;
+            margin-top: 45px;
         }
         
         .location-info{
             display: flex;
             flex-direction: column;
             flex: 1;
-            margin-top: 10px;
         }
         
         .location-info span{
@@ -110,12 +109,13 @@
             display: flex;
             flex-direction: column;
             font-size: 14px;
-            margin-top: 30px;
+            margin-top: 10px;
+            padding-left: 50px;
         }
         
         .food{
-            margin-top: 8px;
-            padding-right: 45px;
+            margin-top: 10px;
+            padding-right: 35px;
         }
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -129,21 +129,32 @@
 
     <div class="container">
         <div class="header">
-            <span class="name">{{nome_evento}}</span>
+            <span class="name">Happy Hour Metadados</span>
         </div>
-        <span class="desc">{{mensagem}}</span>
+        <hr>
+        <span class="desc">Contamos com você para celebrar meu aniversário!</span>
 
-        <span class="date" style="margin-top: 10px">30/09/2025</span>
+        <span class="date" style="margin-top: 25px">30/09/2025</span>
         <span class="date" style="font-weight: 500">18h</span>
 
         <div class="location">
             <div class="location-info">
-                <span style="font-size: 16px; font-weight: 600">Local</span>
+                <span style="font-size: 16px; font-weight: 600; color:rgb(225 204 87)">Local</span>
                 <span style="font-size: 14px">Casa das Pedras</span>
             </div>
             <div class="location-info">
-                <span style="font-size: 17px; font-weight: 600">Endereço</span>
+                <span style="font-size: 17px; font-weight: 600; color:rgb(225 204 87)">Endereço</span>
                 <span style="font-size: 14px; width: 50%;">Rua doutor júlio rosa cruz, 890</span>
+            </div>
+        </div>
+
+        <div class="cardapio">
+            <h2 style="font-size: 17px; font-weight: 600; margin: 0; color:rgb(225 204 87)">Cardápio</h2>
+            <div class="food">
+                <strong style="color:rgb(225 204 87)">Comidas: </strong><span>De comida teremos Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias accusamus laudantium possimus veniam deserunt architecto libero ipsum pariatur inventore voluptates, nam neque praesentium numquam.</span>
+            </div>
+            <div class="food">
+                <strong style="color:rgb(225 204 87)">Bebidas: </strong><span>De bebidas teremos Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias accusamus laudantium possimus veniam deserunt architecto libero ipsum pariatur inventore voluptates, nam neque praesentium numquam.</span>
             </div>
         </div>
 
