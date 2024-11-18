@@ -3,6 +3,7 @@ from pyppeteer import launch
 import asyncio
 import smtplib
 from email.message import EmailMessage
+from dotenv import load_dotenv
 import mimetypes
 import os
 
@@ -56,8 +57,9 @@ async def gerar_imagem_do_html(arquivo_html, output_image_path, variaveis, camin
 
 # Função para enviar o e-mail com a imagem gerada como anexo
 def enviar_email_com_imagem(destinatario, assunto, mensagem_texto, caminho_imagem):
-    remetente = "lucas.bessegato96@gmail.com"  # Substitua pelo seu e-mail
-    senha = "hqob cpdo enth etsj"        # Substitua pela sua senha de app
+    load_dotenv()
+    remetente = os.getenv('GMAIL_ACCOUNT')
+    senha = os.getenv('GMAIL_APP_PASSWORD')
 
     # Verificar se o arquivo de imagem existe
     if not os.path.isfile(caminho_imagem):
@@ -98,7 +100,12 @@ def enviar_email_com_imagem(destinatario, assunto, mensagem_texto, caminho_image
 variaveis = {
     'titulo': 'Convite de Aniversário',
     'mensagem': 'Você está convidado para o aniversário de Cristina!',
-    'nome_aniversariante': 'Besse besse aea'
+    'data': '20/10/2025',
+    'hora': '18',
+    'local': 'Casa das pedras',
+    'endereco': 'Rua doutor júlio rosa cruz, 692',
+    'comidas': 'Aliquam, odit quas iusto quasi natus perspiciatis ipsum animi, aut quos facere mollitia omnis, quam nulla maiores. Aliquam quaerat doloremque qui neque!',
+    'bebidas': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, odit quas iusto quasi natus perspiciatis ipsum animi.'
 }
 arquivo_html = template_3_path
 imagem_output = 'convite_aniversario.png'
