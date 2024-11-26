@@ -6,8 +6,8 @@ class ConvidadoDao:
     def __init__(self, session: Session):
         self.session = session
 
-    def cadastra_convidado(self, nome: str, email: str) -> Convidado:
-        novo_convidado = Convidado(nome=nome, email=email)
+    def cadastra_convidado(self, nome: str, email: str, id_usuario: int) -> Convidado:
+        novo_convidado = Convidado(nome=nome, email=email, id_usuario=id_usuario)
         self.session.add(novo_convidado)
         self.session.commit()
         return novo_convidado
@@ -19,8 +19,8 @@ class ConvidadoDao:
         except NoResultFound:
             return None
 
-    def listar_convidados(self) -> list:
-        return self.session.query(Convidado).all()
+    def listar_convidados_por_usuario(self, id_usuario: int) -> list:
+        return self.session.query(Convidado).filter_by(id_usuario=id_usuario).all()
 
     def excluir_convidado(self, convidado_id: int) -> None:
         try:

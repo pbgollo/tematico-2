@@ -117,8 +117,8 @@ class ConvitePersonalizado:
 
 # Exemplo de uso
 variaveis = {
-    'titulo': 'Convite de Aniversário',
-    'mensagem': 'Você está convidado para o aniversário de Cristina!',
+    'titulo': 'Convite de Aniversário Gollo',
+    'mensagem': 'Lucas Bessegato!',
     'data': '20/10/2025',
     'hora': '18',
     'local': 'Casa das pedras',
@@ -127,7 +127,7 @@ variaveis = {
     'bebidas': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, odit quas iusto quasi natus perspiciatis ipsum animi.'
 }
 template_escolhido = 3
-destinatario = "lucas.bessegato98@gmail.com"
+destinatario = "pedrobgollo@gmail.com"
 assunto = "Convite de Aniversário"
 mensagem_texto = "Você está convidado para a festa! Veja o convite em anexo."
 imagem_output = 'convite_aniversario.png'

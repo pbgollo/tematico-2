@@ -1,2 +1,5 @@
 SQLAlchemy
 mysql-connector-python
+pyppeteer
+dotenv
+pymysql
