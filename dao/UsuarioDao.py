@@ -13,8 +13,16 @@ class UsuarioDao:
         except NoResultFound:
             return None
 
-    def valida_senha(self, usuario: Usuario, senha: str) -> bool:
-        return usuario.senha == senha  # Aqui você pode melhorar usando hashing de senha
+    def valida_senha(self, usuario: Usuario, senha: str) -> Usuario:
+        if usuario.senha == senha:  # Aqui você pode implementar hashing para maior segurança
+            return usuario
+        return None
+
+    def autenticar_usuario(self, email: str, senha: str) -> Usuario:
+        usuario = self.busca_usuario(email)
+        if usuario and self.valida_senha(usuario, senha):
+            return usuario
+        return None
 
     def cadastra_usuario(self, nome: str, email: str, senha: str) -> Usuario:
         novo_usuario = Usuario(nome=nome, email=email, senha=senha)

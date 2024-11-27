@@ -10,7 +10,7 @@ Base.metadata.create_all(bind=engine)
 
 def iniciar_app():
     root = tk.Tk()  
-    app = PrincipalView(root)  
+    app = LoginView(root)  
     root.mainloop()
 
 if __name__ == "__main__":

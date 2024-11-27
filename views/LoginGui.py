@@ -65,13 +65,17 @@ class LoginView:
     def login_usuario(self):
         email = self.entry_email.get()
         senha = self.entry_senha.get()
-
-        autenticado = self.usuario_controller.autenticar_usuario(email, senha)
-
-        if autenticado:
-            messagebox.showinfo("Login", "Login realizado com sucesso!")
+        usuario = self.usuario_controller.autenticar_usuario(email, senha)
+        if usuario:
+            self.abrir_principal_view(usuario)
         else:
             messagebox.showerror("Login", "Usuário ou senha incorretos!")
+
+    def abrir_principal_view(self, usuario):
+        self.root.withdraw()
+        principal_root = tk.Toplevel(self.root)
+        from views.PrincipalGui import PrincipalView
+        PrincipalView(principal_root, usuario)
 
     def abrir_cadastro_view(self):
         self.root.withdraw()

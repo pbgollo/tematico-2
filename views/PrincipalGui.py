@@ -5,8 +5,9 @@ from helpers.CentralizarJanela import CentralizarJanela
 from database.db import SessionLocal  
 
 class PrincipalView:
-    def __init__(self, root):
+    def __init__(self, root, usuario):
         self.root = root
+        self.usuario = usuario
         self.root.title("PlanGO")
         self.root.resizable(False, False)
         self.root.configure(bg="#78d2ff")
@@ -25,13 +26,13 @@ class PrincipalView:
         self.personalizar.configurar_giant_label(self.label_titulo, fg="white", bg="#78d2ff")
 
         # Botão "Cadastrar novo evento"
-        self.btn_cadastrar_evento = tk.Button(root, text="Cadastrar novo evento", command=self.cadastrar_evento)
-        self.btn_cadastrar_evento.place(x=170, y=80, width=175)
+        self.btn_cadastrar_evento = tk.Button(root, text="Cadastrar novo evento", command=lambda: self.cadastrar_evento(usuario))
+        self.btn_cadastrar_evento.place(x=165, y=80, width=175)
         self.personalizar.configurar_button_azul(self.btn_cadastrar_evento)
 
         # Botão "Gerenciar Convidados"
-        self.btn_gerenciar_convidados = tk.Button(root, text="Gerenciar Convidados", command=self.gerenciar_convidados)
-        self.btn_gerenciar_convidados.place(x=170, y=120, width=175)
+        self.btn_gerenciar_convidados = tk.Button(root, text="Gerenciar Convidados", command=lambda: self.gerenciar_convidados(usuario))
+        self.btn_gerenciar_convidados.place(x=165, y=120, width=175)
         self.personalizar.configurar_button_azul(self.btn_gerenciar_convidados)
 
         # Frame com scroll para os eventos
@@ -87,7 +88,7 @@ class PrincipalView:
             frame_evento.columnconfigure(1, weight=1)
 
             # Imagem do evento (à esquerda)
-            label_imagem = tk.Label(frame_evento, text="📅", font=("Arial", 24), bg="white", fg="black")
+            label_imagem = tk.Label(frame_evento, text="📅", font=("Arial", 24), bg="white", fg="orange")
             label_imagem.grid(row=0, column=0, padx=5, pady=5, sticky="w")
 
             # Informações do evento (nome, data e convidados)
@@ -122,13 +123,27 @@ class PrincipalView:
             btn_enviar_convites.grid(row=1, column=0, padx=5, pady=2, sticky="e")
             self.personalizar.configurar_button_amarelo(btn_enviar_convites)
 
-    def cadastrar_evento(self):
-        # Função para abrir a view de cadastro de novo evento
-        pass
+    def cadastrar_evento(self, usuario):
+        self.root.withdraw()
+        evento_root = tk.Toplevel(self.root)
+        
+        def reabrir_principal():
+            evento_root.destroy()
+            self.root.deiconify() 
+        
+        from views.EventoGui import EventoView
+        EventoView(evento_root, usuario, reabrir_principal)
 
-    def gerenciar_convidados(self):
-        # Função para abrir a view de gerenciamento de convidados
-        print("Gerenciar Convidados")
+    def gerenciar_convidados(self, usuario):
+        self.root.withdraw()
+        convidados_root = tk.Toplevel(self.root)
+        
+        def reabrir_principal():
+            convidados_root.destroy()
+            self.root.deiconify() 
+    
+        from views.ConvidadoGui import ConvidadoView
+        ConvidadoView(convidados_root, usuario, reabrir_principal)
 
     def editar_evento(self, evento):
         # Função para editar o evento
