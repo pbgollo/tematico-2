@@ -14,18 +14,18 @@ class ConvidadoDao:
 
     def busca_convidado_por_email(self, email: str) -> Convidado:
         try:
-            convidado = self.session.query(Convidado).filter_by(email=email).one()
-            return convidado
+            return self.session.query(Convidado).filter_by(email=email).one()
         except NoResultFound:
             return None
 
     def listar_convidados_por_usuario(self, id_usuario: int) -> list:
         return self.session.query(Convidado).filter_by(id_usuario=id_usuario).all()
 
-    def excluir_convidado(self, convidado_id: int) -> None:
+    def excluir_convidado(self, convidado_id: int) -> bool:
         try:
             convidado = self.session.query(Convidado).filter_by(id=convidado_id).one()
             self.session.delete(convidado)
             self.session.commit()
+            return True
         except NoResultFound:
-            pass
+            return False

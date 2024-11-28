@@ -1,8 +1,11 @@
 import tkinter as tk
+from tkinter import ttk, messagebox
 from tkinter import messagebox
+from dao.ConvidadoDao import ConvidadoDao
+from controllers.ConvidadoController import ConvidadoController
 from helpers.PersonalizarWidgets import PersonalizarWidgets
 from helpers.CentralizarJanela import CentralizarJanela
-from database.db import SessionLocal  
+from database.db import SessionLocal
 
 class ConvidadoView:
     def __init__(self, root, usuario, reabrir_principal):
@@ -14,7 +17,8 @@ class ConvidadoView:
         self.root.configure(bg="#78d2ff")
 
         self.session = SessionLocal()
-        
+        self.controller = ConvidadoController(self.session)
+
         largura = 500
         altura = 600
         CentralizarJanela.centralizar(self.root, largura, altura)
@@ -25,27 +29,27 @@ class ConvidadoView:
         self.label_titulo = tk.Label(root, text="Convidados", font=("Arial", 20))
         self.label_titulo.place(x=160, y=20)
         self.personalizar.configurar_giant_label(self.label_titulo, fg="white", bg="#78d2ff")
-        
+
         # Label e campo de nome
         self.label_nome = tk.Label(root, text="Nome do Convidado")
-        self.label_nome.place(x=150, y=80)  
+        self.label_nome.place(x=150, y=80)
         self.personalizar.configurar_small_label(self.label_nome)
 
         self.entry_nome = tk.Entry(root)
-        self.entry_nome.place(x=150, y=100, width=200) 
+        self.entry_nome.place(x=150, y=100, width=200)
         self.personalizar.configurar_entry(self.entry_nome)
 
         # Label e campo de e-mail
         self.label_email = tk.Label(root, text="E-mail do Convidado")
-        self.label_email.place(x=150, y=140) 
+        self.label_email.place(x=150, y=140)
         self.personalizar.configurar_small_label(self.label_email)
 
         self.entry_email = tk.Entry(root)
-        self.entry_email.place(x=150, y=160, width=200)  
+        self.entry_email.place(x=150, y=160, width=200)
         self.personalizar.configurar_entry(self.entry_email)
 
         # Botão de cadastro
-        self.btn_cadastrar = tk.Button(root, text="Cadastrar", command='')
+        self.btn_cadastrar = tk.Button(root, text="Cadastrar", command=self.cadastrar_convidado)
         self.btn_cadastrar.place(x=210, y=200)
         self.personalizar.configurar_button_amarelo(self.btn_cadastrar)
 
@@ -71,74 +75,66 @@ class ConvidadoView:
         self.canvas_convidados.pack(side="left", fill="both", expand=True)
         self.scrollbar.pack(side="right", fill="y")
 
-        # Placeholder para os convidados
+        # Inicializar a listagem de convidados
         self.listar_convidados()
 
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
 
-    def listar_convidados(self):
-        convidados = [
-            {"nome": "João Silva", "email": "joao@email.com"},
-            {"nome": "Maria Oliveira", "email": "maria@email.com"},
-            {"nome": "Carlos Pereira", "email": "carlos@email.com"},
-            {"nome": "Fernanda Santos", "email": "fernanda@email.com"},
-            {"nome": "Luciana Costa", "email": "luciana@email.com"},
-        ]
+    def cadastrar_convidado(self):
+        nome = self.entry_nome.get().strip()
+        email = self.entry_email.get().strip()
 
-        if not convidados:
-            messagebox.showinfo("Sem Convidados", "Nenhum convidado encontrado!")
+        if not nome or not email:
+            messagebox.showwarning("Campos vazios", "Preencha todos os campos.")
             return
 
-        # Definir a largura fixa da coluna de informações (em pixels)
-        largura_fixa_coluna_info = 350
+        sucesso = self.controller.cadastrar_convidado(nome, email, self.usuario.id)
+        if sucesso:
+            messagebox.showinfo("Sucesso", "Convidado cadastrado com sucesso.")
+            self.entry_nome.delete(0, tk.END)
+            self.entry_email.delete(0, tk.END)
+            self.listar_convidados()
+        else:
+            messagebox.showerror("Erro", "Este e-mail já está cadastrado.")
 
+    def listar_convidados(self):
+        for widget in self.scrollable_frame.winfo_children():
+            widget.destroy()
+
+        convidados = self.controller.listar_convidados(self.usuario.id)
+        if not convidados:
+            messagebox.showinfo("Sem Convidados", "Nenhum convidado encontrado.")
+            return
+
+        largura_fixa_coluna_info = 200
         for index, convidado in enumerate(convidados):
-            # Crie o frame do convidado e faça ele expandir horizontalmente
             frame_convidado = tk.Frame(self.scrollable_frame, bg="white", relief="solid", bd=1)
             frame_convidado.grid(row=index, column=0, pady=5, padx=0, sticky="ew")
-
-            # Configurar a coluna do frame_convidado para expandir
             frame_convidado.columnconfigure(1, weight=1)
 
-            # Informações do convidado (nome, email e status)
             frame_info = tk.Frame(frame_convidado, bg="white", width=largura_fixa_coluna_info)
             frame_info.grid(row=0, column=1, sticky="w")
             frame_info.columnconfigure(0, weight=1)
 
-            # Labels com largura fixa
-            label_nome_convidado = tk.Label(frame_info, text=convidado["nome"], bg="white", anchor="w", width=largura_fixa_coluna_info // 10)
+            label_nome_convidado = tk.Label(frame_info, text=convidado.nome, bg="white", anchor="w", width=36)
             label_nome_convidado.grid(row=0, column=0, padx=5, sticky="w")
             self.personalizar.configurar_small_label(label_nome_convidado, fg="black", bg="white")
 
-            label_email_convidado = tk.Label(frame_info, text=convidado["email"], bg="white", anchor="w", width=largura_fixa_coluna_info // 10)
+            label_email_convidado = tk.Label(frame_info, text=convidado.email, bg="white", anchor="w", width=36)
             label_email_convidado.grid(row=1, column=0, padx=5, sticky="w")
             self.personalizar.configurar_small_label(label_email_convidado, fg="grey", bg="white")
 
-            # Frame para os botões (à direita)
             frame_botoes = tk.Frame(frame_convidado, bg="white")
             frame_botoes.grid(row=0, column=2, sticky="e", padx=5)
 
-            # Botão de editar
-            btn_editar = tk.Button(frame_botoes, text="Editar", command=lambda c=convidado: self.editar_convidado(c))
-            btn_editar.grid(row=0, column=0, padx=5, pady=2, sticky="e")
-            self.personalizar.configurar_button_azul(btn_editar)
-
-            # Botão de remover
-            btn_remover = tk.Button(frame_botoes, text="Remover", command=lambda c=convidado: self.remover_convidado(c))
+            btn_remover = tk.Button(frame_botoes, text="Remover", command=lambda c=convidado.id: self.remover_convidado(c))
             btn_remover.grid(row=1, column=0, padx=5, pady=2, sticky="e")
             self.personalizar.configurar_button_amarelo(btn_remover)
 
-    def editar_convidado(self, convidado):
-        # Função para editar o convidado
-        print(f"Editando convidado: {convidado['nome']}")
-
-    def remover_convidado(self, convidado):
-        # Função para remover o convidado
-        print(f"Removendo convidado: {convidado['nome']}")
-
-    def voltar(self):
-        self.reabrir_principal()
-        self.root.destroy()
+    def remover_convidado(self, convidado_id):
+        self.controller.excluir_convidado(convidado_id)
+        messagebox.showinfo("Sucesso", "Convidado removido com sucesso.")
+        self.listar_convidados()
 
     def on_close(self):
         self.session.close()

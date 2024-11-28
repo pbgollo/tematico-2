@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 import mimetypes
 import os
 
-class ConvitePersonalizado:
+class EmailSenderController:
     def __init__(self, variaveis_html, template_escolhido):
         self.base_dir = os.path.dirname(os.path.abspath(__file__))
         self.templates = {
@@ -161,7 +161,7 @@ infos = {
     "imagem_output": "convite_aniversario.png"
 }
 
-convite = ConvitePersonalizado(variaveis_html, infos["template_escolhido"])
+convite = EmailSenderController(variaveis_html, infos["template_escolhido"])
 
 # Chamar as funções
 asyncio.run(convite.criar_e_enviar_convite(infos))
