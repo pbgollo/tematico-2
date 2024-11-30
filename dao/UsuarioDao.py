@@ -24,8 +24,8 @@ class UsuarioDao:
             return usuario
         return None
 
-    def cadastra_usuario(self, nome: str, email: str, senha: str) -> Usuario:
-        novo_usuario = Usuario(nome=nome, email=email, senha=senha)
+    def cadastra_usuario(self, nome: str, email: str, telefone: str, senha: str) -> Usuario:
+        novo_usuario = Usuario(nome=nome, email=email, telefone=telefone, senha=senha)
         self.session.add(novo_usuario)
         self.session.commit()
         return novo_usuario

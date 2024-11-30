@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from tkinter import messagebox
-from dao.ConvidadoDao import ConvidadoDao
 from controllers.ConvidadoController import ConvidadoController
 from helpers.PersonalizarWidgets import PersonalizarWidgets
 from helpers.CentralizarJanela import CentralizarJanela
@@ -14,7 +13,7 @@ class ConvidadoView:
         self.reabrir_principal = reabrir_principal
         self.root.title("Gerenciar Convidados")
         self.root.resizable(False, False)
-        self.root.configure(bg="#78d2ff")
+        self.root.configure(bg="#70cfff")
 
         self.session = SessionLocal()
         self.controller = ConvidadoController(self.session)
@@ -28,7 +27,7 @@ class ConvidadoView:
         # Label "Convidados"
         self.label_titulo = tk.Label(root, text="Convidados", font=("Arial", 20))
         self.label_titulo.place(x=160, y=20)
-        self.personalizar.configurar_giant_label(self.label_titulo, fg="white", bg="#78d2ff")
+        self.personalizar.configurar_giant_label(self.label_titulo, fg="white", bg="#70cfff")
 
         # Label e campo de nome
         self.label_nome = tk.Label(root, text="Nome do Convidado")
@@ -139,3 +138,5 @@ class ConvidadoView:
     def on_close(self):
         self.session.close()
         self.root.destroy()
+        if self.reabrir_principal:
+            self.reabrir_principal()

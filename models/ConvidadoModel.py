@@ -8,9 +8,6 @@ class Convidado(Base):
     nome = Column(String(255), nullable=False)
     email = Column(String(255), nullable=False, unique=True)
     id_usuario = Column(Integer, ForeignKey('usuario.id'), nullable=False)
-    
-    # Relacionamentos
-    usuario = relationship('Usuario', back_populates='convidados')  # Um-para-muitos com Usuario
-    respostas = relationship('Resposta', back_populates='convidado')  # Um-para-muitos com Resposta
-    eventos = relationship('Evento', secondary='evento_convidado', back_populates='convidados')  # Muitos-para-muitos com Evento
-      
+
+    usuario = relationship('Usuario', back_populates='convidados')
+    eventos = relationship("Evento", secondary='evento_convidado', back_populates="convidados")

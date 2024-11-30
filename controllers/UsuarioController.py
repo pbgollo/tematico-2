@@ -8,7 +8,7 @@ class UsuarioController:
     def autenticar_usuario(self, email: str, senha: str) -> Usuario:
         return self.usuario_dao.autenticar_usuario(email, senha)
 
-    def cadastrar_usuario(self, nome: str, email: str, senha: str) -> Usuario:
+    def cadastrar_usuario(self, nome: str, email: str, telefone: str, senha: str) -> Usuario:
         if self.usuario_dao.busca_usuario(email):
             return None 
-        return self.usuario_dao.cadastra_usuario(nome, email, senha)
+        return self.usuario_dao.cadastra_usuario(nome, email, telefone, senha)

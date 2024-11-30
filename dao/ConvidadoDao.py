@@ -29,3 +29,6 @@ class ConvidadoDao:
             return True
         except NoResultFound:
             return False
+        
+    def obter_por_email(self, email):
+        return self.session.query(Convidado).filter_by(email=email).first()

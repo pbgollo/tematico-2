@@ -2,9 +2,12 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from tkcalendar import DateEntry
 from PIL import Image, ImageTk
+from controllers.EventoController import EventoController
+from controllers.ConvidadoController import ConvidadoController
 from helpers.PersonalizarWidgets import PersonalizarWidgets
 from helpers.CentralizarJanela import CentralizarJanela
 from database.db import SessionLocal
+from models.EventoConvidadoModel import EventoConvidado
 
 class EventoView:
     def __init__(self, root, usuario, principal_view_callback):
@@ -12,10 +15,13 @@ class EventoView:
         self.usuario = usuario
         self.principal_view_callback = principal_view_callback
         self.root.title("Cadastro de Evento")
-        self.root.configure(bg="#78d2ff")
+        self.root.configure(bg="#70cfff")
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
         
         self.session = SessionLocal()
+        
+        self.convidado_controller = ConvidadoController(self.session)
+        self.evento_controller = EventoController(self.session)
 
         largura = 630
         altura = 650
@@ -97,8 +103,12 @@ class EventoView:
 
         # Listbox para múltiplos convidados com uma barra de rolagem
         listbox_convidados = tk.Listbox(frame_listbox, selectmode=tk.MULTIPLE, height=6, width=50, bd=2, font=self.personalizar.small_font, bg="#f0f0f0", selectbackground="#02ba4f", selectforeground="black", relief="flat")
-        for convidado in ["João", "Maria", "Pedro", "Ana", "Carlos", "Ricardo", "Lúcia", "Fernanda", "Paulo"]:
-            listbox_convidados.insert(tk.END, convidado)
+        
+        convidados = self.convidado_controller.listar_convidados(self.usuario.id)
+        
+        for convidado in convidados:
+            nome_email = convidado.nome + " (" + convidado.email + ")"
+            listbox_convidados.insert(tk.END, nome_email)
 
         # Barra de rolagem para o Listbox
         scrollbar_convidados = tk.Scrollbar(frame_listbox, orient="vertical", command=listbox_convidados.yview)
@@ -179,14 +189,13 @@ class EventoView:
 
             # Atualizar o botão clicado
             botao.config(text="Selecionado", bg="#02ba4f", fg="white")
-            self.imagem_selecionada_objeto = imagem
+            self.imagem_selecionada = imagem
 
         # Adicionar as imagens ao frame com a função de seleção
         self.adicionar_imagem(frame_images, self.imagens[0], selecionar_imagem)
         self.adicionar_imagem(frame_images, self.imagens[1], selecionar_imagem)
         self.adicionar_imagem(frame_images, self.imagens[2], selecionar_imagem)
 
-        # Função para capturar os convidados selecionados
         def enviar_dados():
             nome_evento = entry_nome_evento.get()
             data_evento = date_entry.get()
@@ -197,23 +206,44 @@ class EventoView:
             comida = entry_comida.get()
             bebida = entry_bebida.get()
 
-            # Verificando se um template foi selecionado
-            if not self.imagem_selecionada_objeto:
+            if not self.imagem_selecionada:
                 messagebox.showwarning("Aviso!", "Selecione um template de convite.")
                 return
 
-            # Buscando o índice da imagem selecionada
-            template_selecionado = self.imagens.index(self.imagem_selecionada_objeto)
+            template_selecionado = self.imagens.index(self.imagem_selecionada)
 
             if not nome_evento or not data_evento or not hora_evento or not nome_local or not endereco or not comida or not bebida:
                 messagebox.showwarning("Aviso!", "Preencha todos os campos.")
             elif not convidados_selecionados:
                 messagebox.showwarning("Aviso!", "Selecione pelo menos um convidado.")
             else:
-                messagebox.showinfo(
-                    "Dados Enviados",
-                    f"Nome do Evento: {nome_evento}\nData: {data_evento}\nHora: {hora_evento}\nConvidados: {', '.join(convidados_selecionados)}\nLocal: {nome_local}\nEndereço: {endereco}\nComidas: {comida}\nBebidas: {bebida}\nTemplate Selecionado: {template_selecionado + 1}"
-                )
+                try:
+                    # Cadastrar evento e obter ID do evento recém-criado
+                    evento_id = self.evento_controller.adicionar_evento(
+                        nome=nome_evento,
+                        data=data_evento,
+                        hora=hora_evento,
+                        local=nome_local,
+                        endereco=endereco,
+                        comida=comida,
+                        bebida=bebida,
+                        template_id=template_selecionado + 1,
+                        id_usuario=self.usuario.id
+                    )
+                    
+                    emails_convidados = [convidado.split('(')[-1].strip(')') for convidado in convidados_selecionados]
+                    
+                    self.evento_controller.adicionar_convidados(evento_id, emails_convidados)
+
+                    messagebox.showinfo("Sucesso", "Evento cadastrado com sucesso!")
+                    
+                    self.root.destroy()
+                    if self.principal_view_callback:
+                        self.principal_view_callback()
+                except Exception as e:
+                    messagebox.showerror("Erro", f"Erro ao cadastrar evento: {str(e)}")
+
+
 
         # Botão Enviar
         btn_enviar = tk.Button(self.inner_frame, text="Salvar", command=enviar_dados, width=button_width)

@@ -1,5 +1,5 @@
 class PersonalizarWidgets:
-    def __init__(self, small_font=("Arial", 9), medium_font=("Arial", 11, "bold"), big_font=("Arial", 18, "bold"), giant_font=("Arial", 22, "bold"), cor_primaria='#78d2ff', cor_secundaria='#ffc400', cor_terciaria='#21b3ed'):
+    def __init__(self, small_font=("Arial", 9), medium_font=("Arial", 11, "bold"), big_font=("Arial", 18, "bold"), giant_font=("Arial", 22, "bold"), cor_primaria='#70cfff', cor_secundaria='#ffc400', cor_terciaria='#21b3ed'):
         self.small_font = small_font 
         self.medium_font = medium_font
         self.big_font = big_font
