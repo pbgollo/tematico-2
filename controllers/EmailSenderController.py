@@ -158,7 +158,7 @@ infos = {
     "numero_celular": "54999617064",
     "assunto": "Convite de Aniversário",
     "mensagem_texto": "Você está convidado para a festa! Veja o convite em anexo.",
-    "imagem_output": "convite_aniversario.png"
+    "imagem_output": "assets/convite_aniversario.png"
 }
 
 convite = EmailSenderController(variaveis_html, infos["template_escolhido"])
