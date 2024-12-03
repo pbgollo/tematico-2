@@ -154,9 +154,9 @@ variaveis_html = {
 
 infos = {
     "template_escolhido": 3,
-    "destinatario": "pedrobgollo@gmail.com",
+    "destinatario": "lucas.bessegato98@gmail.com",
     "numero_celular": "54999617064",
-    "assunto": "Convite de Aniversário",
+    "assunto": "Convite",
     "mensagem_texto": "Você está convidado para a festa! Veja o convite em anexo.",
     "imagem_output": "convite_aniversario.png"
 }
