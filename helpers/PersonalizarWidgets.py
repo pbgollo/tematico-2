@@ -1,5 +1,5 @@
 class PersonalizarWidgets:
-    def __init__(self, small_font=("Arial", 9), medium_font=("Arial", 11, "bold"), big_font=("Arial", 18, "bold"), giant_font=("Arial", 22, "bold"), cor_primaria='#70cfff', cor_secundaria='#ffc400', cor_terciaria='#21b3ed'):
+    def __init__(self, small_font=("Arial", 9), medium_font=("Arial", 11, "bold"), big_font=("Arial", 18, "bold"), giant_font=("Arial", 22, "bold"), cor_primaria='#70cfff', cor_secundaria='#ffc400', cor_terciaria='#21b3ed', cor_loading='#55cfff'):
         self.small_font = small_font 
         self.medium_font = medium_font
         self.big_font = big_font
@@ -25,3 +25,7 @@ class PersonalizarWidgets:
 
     def configurar_button_azul(self, widget, fg="white", bg=None):
         widget.config(font=self.medium_font, fg=fg, bg=bg or self.cor_terciaria, bd=0)
+        
+    def configurar_button_loading(self, widget, fg="white", bg=None):
+        widget.config(font=self.medium_font, fg=fg, bg=bg or self.cor_loading, bd=0)
+

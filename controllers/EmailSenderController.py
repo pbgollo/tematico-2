@@ -87,7 +87,7 @@ class EmailSenderController:
         numero_celular_formatado = f"55{infos['numero_celular']}"
 
         # Criar o link do WhatsApp
-        mensagem_whatsapp = f"Estou confirmando minha presença no evento {self.variaveis_html["titulo"]}, agradeço o convite!"
+        mensagem_whatsapp = f"Estou confirmando minha presença no evento {self.variaveis_html["nome_evento"]}, agradeço o convite!"
         mensagem_codificada = quote(mensagem_whatsapp)
         link_whatsapp = f"https://wa.me/{numero_celular_formatado}?text={mensagem_codificada}"
 

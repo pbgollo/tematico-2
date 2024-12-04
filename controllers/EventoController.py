@@ -48,5 +48,5 @@ class EventoController:
         return numero_convidados
     
     def listar_convidados_por_evento(self, evento_id: int) -> list:
-        return self.evento_convidado_dao.listar_emails(evento_id)
+        return self.evento_convidado_dao.listar_convidados(evento_id)
 

@@ -154,48 +154,55 @@ class PrincipalView:
         else:
             messagebox.showerror("Erro", resultado["message"])
 
-    def enviar_convites(self, evento):
-        emails_convidados = self.evento_controller.listar_convidados_por_evento(evento.id)
 
-        if not emails_convidados:
+    def enviar_convites(self, evento):
+        convidados = self.evento_controller.listar_convidados_por_evento(evento.id)
+
+        if not convidados:
             messagebox.showinfo("Sem Convidados", "Nenhum convidado encontrado para este evento.")
             return
 
-        variaveis_html = {
-            'titulo': evento.nome,
-            'mensagem': f"Você está convidado para o evento '{evento.nome}'!",
-            'data': evento.data,
-            'hora': evento.hora,
-            'local': evento.local,
-            'endereco': evento.endereco,
-            'comidas': evento.comida or "Não especificado",
-            'bebidas': evento.bebida or "Não especificado",
-        }
-
         template_escolhido = evento.template_id or 1
-        messagebox.showinfo("Enviando convites", "Enviando os convites para os convidados, aguarde...")
 
-        try:
-            for email_convidado in emails_convidados:
-                infos = {
-                    "template_escolhido": template_escolhido,
-                    "destinatario": email_convidado,
-                    "numero_celular": "00000000000",
-                    "assunto": f"Convite: {evento.nome}",
-                    "mensagem_texto": f"Você está convidado para o evento '{evento.nome}'. Veja o convite em anexo.",
-                    "imagem_output": f"assets/convite_{evento.id}.png",
-                }
+        for convidado in convidados:
+            nome_convidado = convidado["nome"]
+            email_convidado = convidado["email"]
 
-                try:
-                    convite = EmailSenderController(variaveis_html, template_escolhido)
-                    asyncio.run(convite.criar_e_enviar_convite(infos))
-                    print(f"Convite enviado para {email_convidado}")
-                except Exception as e:
-                    print(f"Erro ao enviar convite para {email_convidado}: {e}")
-                    messagebox.showerror("Erro", f"Erro ao enviar convite para {email_convidado}: {e}")
+            variaveis_html = {
+                'titulo': nome_convidado,
+                'nome_evento': evento.nome,
+                'mensagem': f"Você está convidado para {evento.nome}!",
+                'data': evento.data,
+                'hora': evento.hora,
+                'local': evento.local,
+                'endereco': evento.endereco,
+                'comidas': evento.comida or "Não especificado",
+                'bebidas': evento.bebida or "Não especificado",
+            }
 
-        finally:
-           messagebox.showinfo("Convites Enviados", "Convites enviados para todos os convidados com sucesso!")
+            infos = {
+                "template_escolhido": template_escolhido,
+                "destinatario": email_convidado,
+                "numero_celular": self.usuario.telefone,
+                "assunto": f"Convite: {evento.nome}",
+                "mensagem_texto": f"Você está convidado para {evento.nome}. Veja o convite em anexo.",
+                "imagem_output": f"assets/convite_{evento.id}_{nome_convidado}.png",
+            }
+
+            try:
+                convite = EmailSenderController(variaveis_html, template_escolhido)
+                asyncio.run(convite.criar_e_enviar_convite(infos))
+                print(f"Convite enviado para {nome_convidado} <{email_convidado}>")
+            except Exception as e:
+                print(f"Erro ao enviar convite para {nome_convidado} <{email_convidado}>: {e}")
+                messagebox.showerror("Erro", f"Erro ao enviar convite para {nome_convidado} <{email_convidado}>: {e}")
+
+        messagebox.showinfo("Convites Enviados", "Convites enviados para todos os convidados com sucesso!")
+
+
+
+
+
 
 
 
