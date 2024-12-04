@@ -10,7 +10,7 @@ import os
 
 class EmailSenderController:
     def __init__(self, variaveis_html, template_escolhido):
-        self.base_dir = os.path.dirname(os.path.abspath(__file__))
+        self.base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'assets'))
         self.templates = {
             1: {
                 "background": os.path.join(self.base_dir, 'templates-backgrounds', 'background-1.jpg'),
@@ -135,33 +135,8 @@ class EmailSenderController:
             print(f"Erro ao enviar o e-mail: {e}")
 
     async def criar_e_enviar_convite(self, infos):
+        print(infos)
+        print(self.variaveis_html)
         """Executa a geração do convite e o envio do e-mail."""
         await self.gerar_imagem_do_html(infos["imagem_output"])
         self.enviar_email_com_imagem(infos)
-
-
-# Exemplo de uso
-variaveis_html = {
-    'titulo': 'Aniversário do Gollo',
-    'mensagem': 'Você está convidado para o aniversário do Gollo!',
-    'data': '20/10/2025',
-    'hora': '18',
-    'local': 'Casa das pedras',
-    'endereco': 'Rua doutor júlio rosa cruz, 692',
-    'comidas': 'Aliquam, odit quas iusto quasi natus perspiciatis ipsum animi, aut quos facere mollitia omnis, quam nulla maiores. Aliquam quaerat doloremque qui neque!',
-    'bebidas': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, odit quas iusto quasi natus perspiciatis ipsum animi.'
-}
-
-infos = {
-    "template_escolhido": 3,
-    "destinatario": "pedrobgollo@gmail.com",
-    "numero_celular": "54999617064",
-    "assunto": "Convite de Aniversário",
-    "mensagem_texto": "Você está convidado para a festa! Veja o convite em anexo.",
-    "imagem_output": "assets/convite_aniversario.png"
-}
-
-convite = EmailSenderController(variaveis_html, infos["template_escolhido"])
-
-# Chamar as funções
-asyncio.run(convite.criar_e_enviar_convite(infos))

@@ -15,3 +15,12 @@ class EventoConvidadoDAO:
     def contar_convidados(self, evento_id: int) -> int:
         # Conta o número de registros na tabela evento_convidado para o evento_id fornecido
         return self.session.query(func.count(EventoConvidado.id)).filter(EventoConvidado.evento_id == evento_id).scalar()
+    
+    def listar_emails(self, evento_id: int) -> list:
+        return [
+            evento_convidado.convidado.email
+            for evento_convidado in self.session.query(EventoConvidado)
+            .filter(EventoConvidado.evento_id == evento_id)
+            .all()
+        ]
+
