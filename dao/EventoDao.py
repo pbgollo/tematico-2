@@ -40,3 +40,16 @@ class EventoDao:
             return True
         except NoResultFound:
             return False
+        
+    def editar_evento(self, evento_id: int, **dados_atualizados) -> bool:
+        try:
+            evento = self.session.query(Evento).filter_by(id=evento_id).one()
+            for chave, valor in dados_atualizados.items():
+                if hasattr(evento, chave):
+                    setattr(evento, chave, valor)
+
+            self.session.commit()
+            return True
+        except NoResultFound:
+            return False
+

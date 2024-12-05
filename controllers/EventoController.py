@@ -25,6 +25,10 @@ class EventoController:
         
         evento_id = self.evento_dao.cadastra_evento(evento)
         return evento_id
+    
+    def editar_evento(self, evento_id: int, **dados_atualizados) -> bool:
+        return self.evento_dao.editar_evento(evento_id, **dados_atualizados)
+
 
     def listar_eventos(self, id_usuario: int) -> list:
         return self.evento_dao.listar_eventos_por_usuario(id_usuario)

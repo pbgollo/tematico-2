@@ -84,7 +84,8 @@ class PrincipalView:
             frame_evento.grid(row=index, column=0, pady=5, padx=0, sticky="ew")
 
             # Configurar a coluna do frame_evento para expandir
-            frame_evento.columnconfigure(1, weight=1)
+            frame_evento.columnconfigure(1, weight=3)  # Aumentar espaço para informações
+            frame_evento.columnconfigure(2, weight=1)  # Ajustar para os botões
 
             # Imagem do evento (à esquerda)
             label_imagem = tk.Label(frame_evento, text="📅", font=("Arial", 24), bg="white", fg="orange")
@@ -112,15 +113,21 @@ class PrincipalView:
             frame_botoes = tk.Frame(frame_evento, bg="white")
             frame_botoes.grid(row=0, column=2, sticky="e", padx=5)
 
-            # Botão de excluir
-            btn_editar = tk.Button(frame_botoes, text="Excluir", command=lambda e=evento: self.excluir_evento(e))
+            # Botão de editar
+            btn_editar = tk.Button(frame_botoes, text="Editar", command=lambda e=evento: self.editar_evento(e))
             btn_editar.grid(row=0, column=0, padx=5, pady=2, sticky="e")
             self.personalizar.configurar_button_azul(btn_editar)
-
+            
             # Botão de enviar convites
             btn_enviar_convites = tk.Button(frame_botoes, text="Enviar convites", command=lambda e=evento: self.enviar_convites(e))
             btn_enviar_convites.grid(row=1, column=0, padx=5, pady=2, sticky="e")
             self.personalizar.configurar_button_amarelo(btn_enviar_convites)
+
+            # Botão de excluir
+            btn_excluir = tk.Button(frame_botoes, text="Excluir", command=lambda e=evento: self.excluir_evento(e))
+            btn_excluir.grid(row=2, column=0, padx=5, pady=2, sticky="e")
+            self.personalizar.configurar_button_vermelho(btn_excluir)
+
 
     def cadastrar_evento(self, usuario):
         self.root.withdraw()
@@ -132,6 +139,17 @@ class PrincipalView:
         
         from views.EventoGui import EventoView
         EventoView(evento_root, usuario, reabrir_principal)
+        
+    def editar_evento(self, evento):
+        self.root.withdraw()
+        evento_root = tk.Toplevel(self.root) 
+
+        def reabrir_principal():
+            evento_root.destroy()
+            self.root.deiconify() 
+
+        from views.EventoGui import EventoView
+        EventoView(evento_root, self.usuario, reabrir_principal, evento_id=evento.id)
 
     def gerenciar_convidados(self, usuario):
         self.root.withdraw()
