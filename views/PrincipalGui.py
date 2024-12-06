@@ -130,23 +130,25 @@ class PrincipalView:
 
 
     def cadastrar_evento(self, usuario):
-        self.root.withdraw()
-        evento_root = tk.Toplevel(self.root)
-        
+        evento_root = tk.Toplevel(self.root)  # Cria novo Toplevel
+        self.root.iconify()
+
         def reabrir_principal():
             evento_root.destroy()
-            self.root.deiconify() 
-        
+            self.root.deiconify()
+            self.listar_eventos()  # Atualiza a listagem ao retornar
+
         from views.EventoGui import EventoView
         EventoView(evento_root, usuario, reabrir_principal)
         
     def editar_evento(self, evento):
-        self.root.withdraw()
-        evento_root = tk.Toplevel(self.root) 
+        evento_root = tk.Toplevel(self.root)  # Cria novo Toplevel
+        self.root.iconify()
 
         def reabrir_principal():
             evento_root.destroy()
-            self.root.deiconify() 
+            self.root.deiconify()
+            self.listar_eventos()  # Atualiza a listagem ao retornar
 
         from views.EventoGui import EventoView
         EventoView(evento_root, self.usuario, reabrir_principal, evento_id=evento.id)
@@ -163,14 +165,12 @@ class PrincipalView:
         ConvidadoView(convidados_root, usuario, reabrir_principal)
 
     def excluir_evento(self, evento):
-        resultado = self.evento_controller.excluir_evento(evento.id)
-        
-        if resultado["success"]:
-            self.listar_eventos()
+        for widget in self.scrollable_frame.winfo_children():
+            widget.destroy()
             
-            messagebox.showinfo("Sucesso", "Evento excluído com sucesso!")
-        else:
-            messagebox.showerror("Erro", resultado["message"])
+        self.evento_controller.excluir_evento(evento.id)
+        self.listar_eventos()
+        messagebox.showinfo("Sucesso", "Evento excluído com sucesso!")
 
 
     def enviar_convites(self, evento):
@@ -216,13 +216,6 @@ class PrincipalView:
                 messagebox.showerror("Erro", f"Erro ao enviar convite para {nome_convidado} <{email_convidado}>: {e}")
 
         messagebox.showinfo("Convites Enviados", "Convites enviados para todos os convidados com sucesso!")
-
-
-
-
-
-
-
 
     def on_close(self):
         self.session.close()

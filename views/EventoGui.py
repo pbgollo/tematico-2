@@ -11,6 +11,7 @@ from models.EventoConvidadoModel import EventoConvidado
 
 class EventoView:
     def __init__(self, root, usuario, principal_view_callback, evento_id=None):
+        self.imagens_fixas = None  # Variável de classe para armazenar imagens fixas
         self.root = root
         self.usuario = usuario
         self.principal_view_callback = principal_view_callback
@@ -57,9 +58,28 @@ class EventoView:
         # Carregar dados do evento, se for edição
         if self.evento_id:
             self.carregar_dados_evento()
+            
+    def carregar_imagens_fixas(self):
+        if not self.imagens_fixas:  # Carregar apenas se as imagens ainda não estiverem carregadas
+            def carregar_imagem(caminho):
+                img = Image.open(caminho)
+                img = img.resize((150, 150), Image.LANCZOS)
+                return ImageTk.PhotoImage(img, master=self.root)  # Relaciona ao contexto gráfico atual
 
+            # Caminhos das imagens
+            caminho_imagem1 = "assets/templates-backgrounds/background-1.jpg"
+            caminho_imagem2 = "assets/templates-backgrounds/background-2.jpg"
+            caminho_imagem3 = "assets/templates-backgrounds/background-3.jpg"
+
+            # Carregar e armazenar na variável da classe
+            self.imagens_fixas = [
+                carregar_imagem(caminho_imagem1),
+                carregar_imagem(caminho_imagem2),
+                carregar_imagem(caminho_imagem3)
+            ]
 
     def criar_widgets(self):
+        self.carregar_imagens_fixas()
         input_width = 50
         button_width = 15
 
@@ -162,27 +182,6 @@ class EventoView:
         frame_images = tk.Frame(self.inner_frame, bg=self.personalizar.cor_primaria)
         frame_images.pack(pady=20, anchor="center")
 
-        def carregar_imagem(caminho):
-            img = Image.open(caminho)
-            img = img.resize((150, 150), Image.LANCZOS)
-            return ImageTk.PhotoImage(img)
-
-        # Caminhos das imagens (substitua pelos caminhos corretos das suas imagens)
-        caminho_imagem1 = "assets/templates-backgrounds/background-1.jpg"
-        caminho_imagem2 = "assets/templates-backgrounds/background-2.jpg"
-        caminho_imagem3 = "assets/templates-backgrounds/background-3.jpg"
-
-        # Carregar as imagens e armazená-las na lista self.imagens
-        self.imagens.extend([
-            carregar_imagem(caminho_imagem1),
-            carregar_imagem(caminho_imagem2),
-            carregar_imagem(caminho_imagem3)
-        ])
-
-        # Variável para rastrear a imagem selecionada
-        self.imagem_selecionada = None
-
-        # Função para selecionar o template do convite
         def selecionar_imagem(botao, imagem):
             # Resetar o estado de todos os botões
             for b in self.botoes_template:
@@ -192,10 +191,9 @@ class EventoView:
             botao.config(text="Selecionado", bg="#02ba4f", fg="white")
             self.imagem_selecionada = imagem
 
-        # Adicionar as imagens ao frame com a função de seleção
-        self.adicionar_imagem(frame_images, self.imagens[0], selecionar_imagem)
-        self.adicionar_imagem(frame_images, self.imagens[1], selecionar_imagem)
-        self.adicionar_imagem(frame_images, self.imagens[2], selecionar_imagem)
+        # Adicionar as imagens fixas ao frame com a função de seleção
+        for img in self.imagens_fixas:
+            self.adicionar_imagem(frame_images, img, selecionar_imagem)
 
         def enviar_dados():
             nome_evento = self.entry_nome_evento.get()
@@ -211,7 +209,7 @@ class EventoView:
                 messagebox.showwarning("Aviso!", "Selecione um template de convite.")
                 return
 
-            template_selecionado = self.imagens.index(self.imagem_selecionada)
+            template_selecionado = self.imagens_fixas.index(self.imagem_selecionada)
 
             if not nome_evento or not data_evento or not hora_evento or not nome_local or not endereco or not comida or not bebida:
                 messagebox.showwarning("Aviso!", "Preencha todos os campos.")
@@ -254,15 +252,23 @@ class EventoView:
 
                         messagebox.showinfo("Sucesso", "Evento cadastrado com sucesso!")
                     
-                    self.root.destroy()
-                    if self.principal_view_callback:
-                        self.principal_view_callback()
+                    self.abrir_principal_view()
                 except Exception as e:
                     messagebox.showerror("Erro", f"Erro ao salvar evento: {str(e)}")
 
         btn_enviar = tk.Button(self.inner_frame, text="Salvar", command=enviar_dados, width=15)
         btn_enviar.pack(pady=20)
         self.personalizar.configurar_button_amarelo(btn_enviar)
+        
+    def abrir_principal_view(self):
+        self.session.close()  # Feche a sessão da atual EventoView
+        self.root.destroy()  # Feche a janela de cadastro/edição de eventos
+
+        from views.PrincipalGui import PrincipalView  # Importar a classe da janela principal
+        principal_root = tk.Tk()  # Crie uma nova janela principal
+        PrincipalView(principal_root, self.usuario)  # Instancie a janela principal
+        principal_root.mainloop()  # Inicie o loop principal
+
         
     def carregar_dados_evento(self):
         evento = self.evento_controller.evento_dao.busca_evento_por_id(self.evento_id)
@@ -276,10 +282,9 @@ class EventoView:
             self.entry_comida.insert(0, evento.comida)
             self.entry_bebida.insert(0, evento.bebida)
 
-            # Selecionar imagem
             template_id = evento.template_id - 1  # Ajustar para o índice da lista
-            if 0 <= template_id < len(self.imagens):
-                self.imagem_selecionada = self.imagens[template_id]
+            if 0 <= template_id < len(self.imagens_fixas):
+                self.imagem_selecionada = self.imagens_fixas[template_id]
                 self.botoes_template[template_id].config(text="Selecionado", bg="#02ba4f", fg="white")
 
     def adicionar_imagem(self, frame, imagem, funcao_selecao):
